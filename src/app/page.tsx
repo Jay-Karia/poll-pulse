@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button"
 
+import { SignOutButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
+
 import localFont from "next/font/local"
 import { Poppins } from 'next/font/google'
 import { cn } from "@/lib/utils"
@@ -17,7 +19,12 @@ export default function Home() {
   return (
     <div className={"flex flex-col space-y-3 w-max"}>
       Hello <span className={cn("text-xl text-blue-700", headingFont.className)}>Poll Pulse</span>
-      <Button>Click me</Button>
+      <SignedIn>
+        <SignOutButton />
+      </SignedIn>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
     </div>
   );
 }
