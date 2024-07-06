@@ -16,7 +16,7 @@ const textFont = Poppins({
 export default function Home() {
   return (
     <div className={"flex flex-col space-y-3 w-max"}>
-      <span className={cn("text-xl text-blue-700", headingFont.className)}>Hello Poll Pulse</span>
+      Hello <span className={cn("text-xl text-blue-700", headingFont.className)}>Poll Pulse</span>
       <Button>Click me</Button>
     </div>
   );
