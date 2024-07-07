@@ -16,6 +16,7 @@ datasource db {
 model Poll {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   question String
+  userId   String
   options  Option[]
 }
 
