@@ -9,10 +9,13 @@ export const createPoll = async (c: Context) => {
 
     try {
         // create poll
+        const userId = await getUser(c)
+        if (!userId) return c.json({ message: 'User not found!' }, 404)
+
         await prisma.poll.create({
             data: {
                 question,
-                userId: await getUser(c) as string,
+                userId,
                 options: {
                     create: options.map(option => ({
                         text: option
@@ -74,6 +77,57 @@ export const specificPoll = async (c: Context, deletePoll = false) => {
         console.error(e)
         return c.json({
             message: 'Error getting poll!'
+        }, 500)
+    }
+}
+
+export const votePoll = async (c: Context) => {
+    const id = c.req.param("id")
+    const optionId = c.req.param("optionId")
+
+    try {
+        // get poll
+        const poll = await prisma.poll.findUnique({
+            where: {
+                id: id
+            },
+            include: {
+                options: true
+            }
+        })
+
+        if (!poll) {
+            return c.json({
+                message: 'Poll not found!'
+            }, 404)
+        }
+
+        // check if option exists
+        const option = poll.options.find(option => option.id === optionId)
+        if (!option) {
+            return c.json({
+                message: 'Option not found!'
+            }, 404)
+        }
+
+        // update option value
+        await prisma.option.update({
+            where: {
+                id: optionId
+            },
+            data: {
+                votes: option.votes + 1
+            }
+        })
+
+        return c.json({
+            message: 'Voted successfully!'
+        })
+
+    } catch (e) {
+        console.error(e)
+        return c.json({
+            message: 'Error voting!'
         }, 500)
     }
 }
