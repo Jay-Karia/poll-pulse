@@ -33,7 +33,7 @@ export const createPoll = async (c: Context) => {
     }
 }
 
-export const getPoll = async (c: Context) => {
+export const specificPoll = async (c: Context, deletePoll = false) => {
     const id = c.req.param("id")
 
     try {
@@ -51,6 +51,19 @@ export const getPoll = async (c: Context) => {
             return c.json({
                 message: 'Poll not found!'
             }, 404)
+        }
+
+        if (deletePoll) {
+            // delete poll
+            await prisma.poll.delete({
+                where: {
+                    id: id
+                }
+            })
+
+            return c.json({
+                message: 'Poll deleted successfully!'
+            })
         }
 
         return c.json({
