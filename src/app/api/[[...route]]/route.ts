@@ -2,7 +2,7 @@ import { clerkMiddleware } from '@hono/clerk-auth'
 import { Hono } from 'hono'
 import { handle } from 'hono/vercel'
 
-import pollRoute from '@/server/routes/pollRoute'
+import pollRoute from '@/server/routes/poll'
 
 export const runtime = 'edge'
 
