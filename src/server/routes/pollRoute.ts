@@ -10,6 +10,6 @@ const pollRoute = new Hono()
 pollRoute.post('/', validator('json', (value, c) => validateCreatePoll(value, c)), (c) => createPoll(c))
 pollRoute.get('/:id', authMiddleware, (c) => specificPoll(c))
 pollRoute.delete('/delete/:id', authMiddleware, (c) => specificPoll(c, true))
-pollRoute.get("/vote/:id/:optionId", authMiddleware, (c) => votePoll(c))
+pollRoute.post("/vote/:id/:optionId", authMiddleware, (c) => votePoll(c))
 
 export default pollRoute
