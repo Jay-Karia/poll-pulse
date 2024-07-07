@@ -4,8 +4,6 @@ import { handle } from 'hono/vercel'
 
 import pollRoute from '@/server/routes/poll'
 
-export const runtime = 'edge'
-
 const app = new Hono().basePath('/api')
 
 app.use('*', clerkMiddleware())
