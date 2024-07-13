@@ -7,10 +7,12 @@ import validateCreatePoll from '../middlewares/validate'
 
 const pollRoute = new Hono()
 
-pollRoute.post('/', authMiddleware, validator('json', (value, c) => validateCreatePoll(value, c)), (c) => createPoll(c))
-pollRoute.get('/:id', authMiddleware, (c) => specificPoll(c))
-pollRoute.get('/', (c) => getAllPolls(c))
-pollRoute.delete('/delete/:id', authMiddleware, (c) => specificPoll(c, true))
-pollRoute.post("/vote/:id/:optionId", (c) => votePoll(c))
+const routes = pollRoute
+    .post('/', authMiddleware, validator('json', (value, c) => validateCreatePoll(value, c)), (c) => createPoll(c))
+    .get('/:id', authMiddleware, (c) => specificPoll(c))
+    .get('/', authMiddleware, (c) => getAllPolls(c))
+    .delete('/delete/:id', authMiddleware, (c) => specificPoll(c, true))
+    .post("/vote/:id/:optionId", authMiddleware, (c) => votePoll(c))
 
 export default pollRoute
+export type AppType = typeof routes
