@@ -7,16 +7,23 @@ import { useEffect, useState } from 'react'
 import Poll from "@/components/Poll"
 
 import { dummyPolls } from "@/dummy"
+import type PollType from "@/types/poll"
 
 export default function Polls() {
 
-    const [polls, setPolls] = useState(dummyPolls)
+    const [polls, setPolls] = useState<PollType[]>([])
 
     const client = hc<AppType>('http://localhost:3000/api/poll')
 
     useEffect(() => {
         const fetchPolls = async () => {
-            console.log("fetching polls")
+            const res = await client.index.$get()
+
+            if (res.ok) {
+                const data = await res.json()
+                const polls = data.polls
+                setPolls(polls)
+            }
         }
 
         fetchPolls()
