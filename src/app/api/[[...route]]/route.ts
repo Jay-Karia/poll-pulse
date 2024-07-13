@@ -8,7 +8,9 @@ const app = new Hono().basePath('/api')
 
 app.use('*', clerkMiddleware())
 
-app.route("/poll", pollRoute)
+const routes = app.route("/poll", pollRoute)
+
+export type AppType = typeof routes
 
 export const GET = handle(app)
 export const POST = handle(app)

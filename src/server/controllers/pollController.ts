@@ -131,3 +131,24 @@ export const votePoll = async (c: Context) => {
         }, 500)
     }
 }
+
+export const getAllPolls = async (c: Context) => {
+    try {
+        // get all polls
+        const polls = await prisma.poll.findMany({
+            include: {
+                options: true
+            }
+        })
+
+        return c.json({
+            polls
+        })
+
+    } catch (e) {
+        console.error(e)
+        return c.json({
+            message: 'Error getting polls!'
+        }, 500)
+    }
+}
