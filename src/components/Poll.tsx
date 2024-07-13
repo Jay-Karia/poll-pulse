@@ -7,9 +7,11 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 
+import Option from "./Option";
+
 export default function Poll(props: { poll: Poll }) {
     return (
-        <div key={props.poll.id} className="my-2">
+        <div className="border border-gray-400 rounded-lg p-2 my-2">
             <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
                     <AccordionTrigger>{props.poll.question}</AccordionTrigger>
@@ -18,7 +20,7 @@ export default function Poll(props: { poll: Poll }) {
                             {props.poll.options.map((elem) => {
                                 return (
                                     <div key={elem.id}>
-                                        {elem.text} - {elem.votes}
+                                        <Option option={elem} />
                                     </div>
                                 )
                             })}

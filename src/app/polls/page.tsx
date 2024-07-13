@@ -6,75 +6,22 @@ import { hc } from "hono/client"
 import { useEffect, useState } from 'react'
 import Poll from "@/components/Poll"
 
+import { dummyPolls } from "@/dummy"
+
 export default function Polls() {
 
-    const [polls, setPolls] = useState([
-        {
-            "id": "668a947ce97295ef9f42783e",
-            "question": "Best programming language",
-            "userId": "[object Response]",
-            "options": [
-                {
-                    "id": "668a947ce97295ef9f42783f",
-                    "text": "Java",
-                    "votes": 6,
-                    "pollId": "668a947ce97295ef9f42783e"
-                },
-                {
-                    "id": "668a947ce97295ef9f427840",
-                    "text": "JavaScript",
-                    "votes": 4,
-                    "pollId": "668a947ce97295ef9f42783e"
-                }
-            ]
-        },
-        {
-            "id": "668a947ce97295ef9f42783e",
-            "question": "Best web framework",
-            "userId": "[object Response]",
-            "options": [
-                {
-                    "id": "668a947ce97295ef9f42783f",
-                    "text": "Nextjs",
-                    "votes": 10,
-                    "pollId": "668a947ce97295ef9f42783e"
-                },
-                {
-                    "id": "668a947ce97295ef9f427840",
-                    "text": "React",
-                    "votes": 4,
-                    "pollId": "668a947ce97295ef9f42783e"
-                },
-                {
-                    "id": "668a947ce97295ef9f427840",
-                    "text": "Svelte",
-                    "votes": 3,
-                    "pollId": "668a947ce97295ef9f42783e"
-                }
-            ]
-        },
-        {
-            "id": "668a947ce97295ef9f42783e",
-            "question": "Best theme",
-            "userId": "[object Response]",
-            "options": [
-                {
-                    "id": "668a947ce97295ef9f42783f",
-                    "text": "Monokai",
-                    "votes": 31,
-                    "pollId": "668a947ce97295ef9f42783e"
-                },
-                {
-                    "id": "668a947ce97295ef9f427840",
-                    "text": "Atom One Dark",
-                    "votes": 14,
-                    "pollId": "668a947ce97295ef9f42783e"
-                }
-            ]
-        }
-    ])
+    const [polls, setPolls] = useState(dummyPolls)
 
-    const client = hc<AppType>('https://ideal-rotary-phone-v7p767qxr4vh7qr-3000.app.github.dev/api/poll')
+    const client = hc<AppType>('http://localhost:3000/api/poll')
+
+    useEffect(() => {
+        const fetchPolls = async () => {
+            console.log("fetching polls")
+        }
+
+        fetchPolls()
+    }, [])
+
 
     return (
         <div className="m-6">
@@ -86,12 +33,14 @@ export default function Polls() {
                     Start voting now!
                 </p>
             </div>
-            <div>
+            <div className="border border-gray-500 p-4 rounded-lg">
                 {polls.length > 0 ? (
-                    <div className="flex flex-col space-y-4 mt-6">
+                    <div className="flex flex-col space-y-4">
                         {polls.map((elem) => {
                             return (
-                                <Poll poll={elem} />
+                                <div key={elem.id}>
+                                    <Poll poll={elem} />
+                                </div>
                             )
                         })}
                     </div>
