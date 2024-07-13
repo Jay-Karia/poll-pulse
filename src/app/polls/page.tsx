@@ -5,15 +5,13 @@ import { hc } from "hono/client"
 
 import { useEffect, useState } from 'react'
 import Poll from "@/components/Poll"
-
-import { dummyPolls } from "@/dummy"
 import type PollType from "@/types/poll"
 
 export default function Polls() {
 
     const [polls, setPolls] = useState<PollType[]>([])
 
-    const client = hc<AppType>('http://localhost:3000/api/poll')
+    const client = hc<AppType>('/api/poll')
 
     useEffect(() => {
         const fetchPolls = async () => {
@@ -28,6 +26,14 @@ export default function Polls() {
 
         fetchPolls()
     }, [])
+
+    const handleDelete = async (pollId : string) => {
+        const res = await client.delete[":id"].$delete({
+            param: {
+                id: pollId
+            }
+        })
+    }
 
 
     return (
@@ -46,7 +52,7 @@ export default function Polls() {
                         {polls.map((elem) => {
                             return (
                                 <div key={elem.id}>
-                                    <Poll poll={elem} />
+                                    <Poll poll={elem} handleDelete={handleDelete}/>
                                 </div>
                             )
                         })}

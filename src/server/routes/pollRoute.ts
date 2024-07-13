@@ -10,7 +10,7 @@ const pollRoute = new Hono()
 const routes = pollRoute
     .post('/', authMiddleware, validator('json', (value, c) => validateCreatePoll(value, c)), (c) => createPoll(c))
     .get('/:id', authMiddleware, (c) => specificPoll(c))
-    .get('/', (c) => getAllPolls(c))
+    .get('/', authMiddleware, (c) => getAllPolls(c))
     .delete('/delete/:id', authMiddleware, (c) => specificPoll(c, true))
     .post("/vote/:id/:optionId", authMiddleware, (c) => votePoll(c))
 
