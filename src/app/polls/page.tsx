@@ -28,7 +28,7 @@ export default function Polls() {
     }, [])
 
     const handleDelete = async (pollId : string) => {
-        const res = await client.delete[":id"].$delete({
+        await client.delete[":id"].$delete({
             param: {
                 id: pollId
             }

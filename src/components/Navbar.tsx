@@ -24,6 +24,11 @@ export default async function Navbar() {
                         All Polls
                     </Link>
                 </Button>
+                <Button variant="link" asChild>
+                    <Link href="/add">
+                        Add Poll
+                    </Link>
+                </Button>
                 <div className="flex space-x-4 items-center">
                     <SignedIn>
                         <UserButton />
